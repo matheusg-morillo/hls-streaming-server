@@ -1,0 +1,48 @@
+version: 2
+
+linters:
+  enable:
+    # Essential for any Go code
+    - errcheck       # Check for unchecked errors
+    - govet          # Standard Go vet checks
+    - staticcheck    # Comprehensive static analysis
+    - ineffassign    # Detect ineffectual assignments
+    - unused         # Find unused code
+
+    # HTTP server specific
+    - gosec          # Security checks (critical for HTTP servers)
+    - bodyclose      # Ensure HTTP response bodies are closed
+    - noctx          # Detect missing context in HTTP handlers
+
+    # Code quality
+    - revive         # Drop-in golint replacement
+    - misspell       # Catch common spelling mistakes
+
+    # Best practices
+    - unconvert      # Remove unnecessary type conversions
+    - goconst        # Find repeated strings that should be constants
+
+linters-settings:
+  gosec:
+    excludes:
+      - G104  # Audit errors not checked (we have errcheck for this)
+
+  revive:
+    rules:
+      - name: var-naming
+        severity: warning
+      - name: exported
+        severity: warning
+
+  govet:
+    enable-all: true
+
+run:
+  timeout: 5m
+  tests: false  # No tests yet in this project
+
+issues:
+  exclude-dirs:
+    - .upload  # Ignore HLS media files directory
+  max-issues-per-linter: 0
+  max-same-issues: 0
