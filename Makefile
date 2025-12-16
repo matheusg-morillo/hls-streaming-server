@@ -12,6 +12,13 @@ lint: ## Run golangci-lint
 lint-fix: ## Run golangci-lint with auto-fix
 	go tool -modfile=golangci-lint.mod golangci-lint run --fix ./...
 
+fmt: ## Format code with gofmt and goimports
+	gofmt -w -s .
+	goimports -w .
+
+fmt-check: ## Check if code needs formatting
+	gofmt -l -s .
+
 build: ## Build the binary
 	go build -o bin/hls-server src/main.go
 
