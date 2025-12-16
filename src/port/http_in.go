@@ -1,8 +1,9 @@
 package port
 
 import (
-	"fmt"
+	"encoding/json"
 	"log"
+	"matheusflix/hls-streaming-server/src/wire/out"
 	"net/http"
 	"os"
 )
@@ -20,9 +21,17 @@ func hlsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain")
+	checkHealthOut := out.CheckHealth{
+		Status: "healthy",
+	}
+
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	_, _ = fmt.Fprintf(w, "pong")
+
+	if err := json.NewEncoder(w).Encode(checkHealthOut); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 var Routes = map[string]http.HandlerFunc{
