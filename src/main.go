@@ -33,6 +33,6 @@ func main() {
 		IdleTimeout:  60 * time.Second,
 	}
 
-	fmt.Printf("Starting HLS server on http://localhost:%d/hls/\n", port)
+	fmt.Printf("Starting HLS server on http://localhost:%d/\n", port)
 	log.Fatal(server.ListenAndServe())
 }
