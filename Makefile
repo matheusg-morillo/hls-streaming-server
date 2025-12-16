@@ -13,10 +13,10 @@ lint-fix: ## Run golangci-lint with auto-fix
 	go tool -modfile=golangci-lint.mod golangci-lint run --fix ./...
 
 build: ## Build the binary
-	go build -o bin/hls-server main.go
+	go build -o bin/hls-server src/main.go
 
 run: ## Run the server
-	go run main.go
+	go run src/main.go
 
 clean: ## Clean build artifacts
 	rm -rf bin/
