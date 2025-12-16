@@ -1,4 +1,3 @@
-// Package main provides a simple HTTP server for streaming HLS video content.
 package main
 
 import (
