@@ -1,0 +1,17 @@
+package middleware
+
+import (
+	"log"
+	"net/http"
+	"os"
+)
+
+func ServeStaticFiles(mux *http.ServeMux, dir string, route string) {
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		log.Fatalf("HLS directory %s does not exist", dir)
+	}
+
+	fs := http.FileServer(http.Dir(dir))
+
+	mux.Handle("/hls/", http.StripPrefix("/hls/", fs))
+}

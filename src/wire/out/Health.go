@@ -1,6 +1,6 @@
 package out
 
-type CheckHealth struct {
+type Health struct {
 	Status string "json:\"status\""
 	Time   string "json:\"time\""
 }

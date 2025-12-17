@@ -1,6 +1,9 @@
 package port
 
-import "net/http"
+import (
+	"matheusflix/hls-streaming-server/src/middleware"
+	"net/http"
+)
 
 func SetupServer() (*http.ServeMux, error) {
 	mux := http.NewServeMux()
@@ -8,6 +11,8 @@ func SetupServer() (*http.ServeMux, error) {
 	for endpoint, handler := range Routes {
 		mux.Handle(endpoint, handler)
 	}
+
+	middleware.ServeStaticFiles(mux, "./upload", "/hls/")
 
 	return mux, nil
 }
