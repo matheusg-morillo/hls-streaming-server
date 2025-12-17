@@ -13,11 +13,11 @@ lint-fix: ## Run golangci-lint with auto-fix
 	go tool -modfile=tools.mod golangci-lint run --fix ./...
 
 fmt: ## Format code with gofmt and goimports
-	go tool -modfile=tools.mod gofmt -w -s .
+	gofmt -w -s .
 	go tool -modfile=tools.mod goimports -w .
 
 fmt-check: ## Check if code needs formatting
-	go tool -modfile=tools.mod gofmt -l -s .
+	gofmt -l -s .
 
 build: ## Build the binary
 	go build -o bin/hls-server src/main.go
@@ -27,9 +27,3 @@ run: ## Run the server
 
 clean: ## Clean build artifacts
 	rm -rf bin/
-
-install-lint: ## Install/update development tools
-	go mod init -modfile=tools.mod matflix/hls-streaming-server/tools || true
-	go get -tool -modfile=tools.mod github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
-	go get -tool -modfile=tools.mod golang.org/x/tools/cmd/goimports@latest
-	go mod tidy -modfile=tools.mod
