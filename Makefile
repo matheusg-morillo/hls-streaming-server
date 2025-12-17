@@ -14,7 +14,7 @@ lint-fix: ## Run golangci-lint with auto-fix
 
 fmt: ## Format code with gofmt and goimports
 	gofmt -w -s .
-	goimports -w .
+	go tool -modfile=golangci-lint.mod goimports -w .
 
 fmt-check: ## Check if code needs formatting
 	gofmt -l -s .
@@ -31,3 +31,5 @@ clean: ## Clean build artifacts
 install-lint: ## Install/update golangci-lint
 	go mod init -modfile=golangci-lint.mod matflix/hls-streaming-server/golangci-lint || true
 	go get -tool -modfile=golangci-lint.mod github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
+	go get -tool -modfile=golangci-lint.mod golang.org/x/tools/cmd/goimports@latest
+	go mod tidy -modfile=golangci-lint.mod

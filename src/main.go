@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/joho/godotenv"
 	"matflix/hls-streaming-server/src/application"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
