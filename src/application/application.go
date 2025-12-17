@@ -6,9 +6,7 @@ import (
 )
 
 func Run() error {
-	mux := http.NewServeMux()
-
-	err := port.SetupServer(mux)
+	mux, err := port.SetupServer()
 
 	if err != nil {
 		return err

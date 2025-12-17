@@ -2,10 +2,12 @@ package port
 
 import "net/http"
 
-func SetupServer(mux *http.ServeMux) error {
+func SetupServer() (*http.ServeMux, error) {
+	mux := http.NewServeMux()
+
 	for endpoint, handler := range Routes {
 		mux.HandleFunc(endpoint, handler)
 	}
 
-	return nil
+	return mux, nil
 }
