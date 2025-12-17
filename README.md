@@ -169,3 +169,126 @@ This project is for educational purposes.
 ---
 
 **Remember**: This is a practical learning project focused on building streaming infrastructure skills. 🚀🎬
+
+## Creating the m3u8 and ts files (simple)
+```bash
+ffmpeg -i <video_path> \
+  -codec copy \
+  -start_number 0 \
+  -hls_time 10 \
+  -hls_list_size 0 \
+  -f hls output/output.m3u8
+```
+
+## Creating the m3u8 and ts files (for adaptive streaming)
+
+**Common ffmpeg options:**
+- `-b:v 2500k` - video bitrate
+- `-maxrate/-bufsize` - prevent bitrate spikes (VBV buffer)
+- `-s 1280x720` - output resolution
+- `-c:a aac` - audio codec
+- `-b:a 128k` - audio bitrate
+- `-hls_time 10` - segment duration (10 seconds)
+- `-hls_list_size 0` - keep all segments (0 = unlimited)
+- `-hls_segment_filename` - naming pattern for .ts segments
+
+### Individual Commands
+
+#### 1080p
+```bash
+ffmpeg -i input.mp4 \
+  -c:v libx264 \
+  -b:v 5000k \
+  -maxrate 5000k \
+  -bufsize 10000k \
+  -s 1920x1080 \
+  -c:a aac \
+  -b:a 128k \
+  -hls_time 10 \
+  -hls_list_size 0 \
+  -hls_segment_filename "upload/1080p_%03d.ts" \
+  "upload/1080p.m3u8"
+```
+
+#### 720p
+```bash
+ffmpeg -i input.mp4 \
+  -c:v libx264 \
+  -b:v 2500k \
+  -maxrate 2500k \
+  -bufsize 5000k \
+  -s 1280x720 \
+  -c:a aac \
+  -b:a 128k \
+  -hls_time 10 \
+  -hls_list_size 0 \
+  -hls_segment_filename "upload/720p_%03d.ts" \
+  "upload/720p.m3u8"
+```
+
+#### 480p
+```bash
+ffmpeg -i input.mp4 \
+  -c:v libx264 \
+  -b:v 1200k \
+  -maxrate 1200k \
+  -bufsize 2400k \
+  -s 854x480 \
+  -c:a aac \
+  -b:a 96k \
+  -hls_time 10 \
+  -hls_list_size 0 \
+  -hls_segment_filename "upload/480p_%03d.ts" \
+  "upload/480p.m3u8"
+```
+
+#### 360p
+```bash
+ffmpeg -i input.mp4 \
+  -c:v libx264 \
+  -b:v 600k \
+  -maxrate 600k \
+  -bufsize 1200k \
+  -s 640x360 \
+  -c:a aac \
+  -b:a 64k \
+  -hls_time 10 \
+  -hls_list_size 0 \
+  -hls_segment_filename "upload/360p_%03d.ts" \
+  "upload/360p.m3u8"
+```
+
+### Unified Command (All Variants at Once)
+
+Run this single command to generate all quality variants:
+
+```bash
+ffmpeg -i input.mp4 \
+  -c:v libx264 -b:v 5000k -maxrate 5000k -bufsize 10000k -s 1920x1080 -c:a aac -b:a 128k \
+    -hls_time 10 -hls_list_size 0 -hls_segment_filename "upload/1080p_%03d.ts" "upload/1080p.m3u8" \
+  -c:v libx264 -b:v 2500k -maxrate 2500k -bufsize 5000k -s 1280x720 -c:a aac -b:a 128k \
+    -hls_time 10 -hls_list_size 0 -hls_segment_filename "upload/720p_%03d.ts" "upload/720p.m3u8" \
+  -c:v libx264 -b:v 1200k -maxrate 1200k -bufsize 2400k -s 854x480 -c:a aac -b:a 96k \
+    -hls_time 10 -hls_list_size 0 -hls_segment_filename "upload/480p_%03d.ts" "upload/480p.m3u8" \
+  -c:v libx264 -b:v 600k -maxrate 600k -bufsize 1200k -s 640x360 -c:a aac -b:a 64k \
+    -hls_time 10 -hls_list_size 0 -hls_segment_filename "upload/360p_%03d.ts" "upload/360p.m3u8"
+```
+
+### Master Playlist (master.m3u8)
+
+Create this file to reference all variants:
+
+```m3u8
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:BANDWIDTH=5128000,RESOLUTION=1920x1080
+1080p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=2628000,RESOLUTION=1280x720
+720p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=1328000,RESOLUTION=854x480
+480p.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=664000,RESOLUTION=640x360
+360p.m3u8
+```
+
+Then stream using: `http://localhost:8080/hls/master.m3u8`
