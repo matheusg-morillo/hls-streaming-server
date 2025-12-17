@@ -7,6 +7,7 @@ FROM alpine:latest
 WORKDIR /root/
 COPY --from=builder /app/bin .
 COPY .upload ./.upload
+COPY .env ./.env
 
 EXPOSE 8080
 CMD ["./hls-server"]
