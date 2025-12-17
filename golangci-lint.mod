@@ -1,4 +1,4 @@
-module matheusflix/hls-streaming-server/golangci-lint
+module matflix/hls-streaming-server/golangci-lint
 
 go 1.25.5
 

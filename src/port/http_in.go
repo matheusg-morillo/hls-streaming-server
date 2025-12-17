@@ -2,8 +2,8 @@ package port
 
 import (
 	"encoding/json"
-	"matheusflix/hls-streaming-server/src/adapter"
-	"matheusflix/hls-streaming-server/src/controller"
+	"matflix/hls-streaming-server/src/adapter"
+	"matflix/hls-streaming-server/src/controller"
 	"net/http"
 )
 

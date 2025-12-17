@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/joho/godotenv"
-	"matheusflix/hls-streaming-server/src/application"
+	"matflix/hls-streaming-server/src/application"
 	"os"
 )
 

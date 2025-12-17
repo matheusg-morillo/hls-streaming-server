@@ -1,8 +1,8 @@
 package adapter
 
 import (
-	"matheusflix/hls-streaming-server/src/domain"
-	"matheusflix/hls-streaming-server/src/wire/out"
+	"matflix/hls-streaming-server/src/domain"
+	"matflix/hls-streaming-server/src/wire/out"
 )
 
 func HealthToJSON(health domain.Health) out.Health {

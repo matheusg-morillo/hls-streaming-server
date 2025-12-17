@@ -1,4 +1,4 @@
-module matheusflix/hls-streaming-server
+module matflix/hls-streaming-server
 
 go 1.25.5
 

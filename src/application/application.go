@@ -1,7 +1,7 @@
 package application
 
 import (
-	"matheusflix/hls-streaming-server/src/port"
+	"matflix/hls-streaming-server/src/port"
 	"net/http"
 )
 

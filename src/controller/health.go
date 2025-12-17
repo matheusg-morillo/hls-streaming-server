@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"matheusflix/hls-streaming-server/src/domain"
+	"matflix/hls-streaming-server/src/domain"
 	"time"
 )
 

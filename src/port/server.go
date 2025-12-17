@@ -2,7 +2,7 @@ package port
 
 import (
 	"errors"
-	"matheusflix/hls-streaming-server/src/middleware"
+	"matflix/hls-streaming-server/src/middleware"
 	"net/http"
 	"os"
 )

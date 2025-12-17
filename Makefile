@@ -29,5 +29,5 @@ clean: ## Clean build artifacts
 	rm -rf bin/
 
 install-lint: ## Install/update golangci-lint
-	go mod init -modfile=golangci-lint.mod matheusflix/hls-streaming-server/golangci-lint || true
+	go mod init -modfile=golangci-lint.mod matflix/hls-streaming-server/golangci-lint || true
 	go get -tool -modfile=golangci-lint.mod github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
