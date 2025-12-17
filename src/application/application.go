@@ -7,14 +7,14 @@ import (
 )
 
 func Run() error {
-	mux, err := port.SetupServer()
+	handler, err := port.SetupServer()
 
 	if err != nil {
 		return err
 	}
 	server := &http.Server{
 		Addr:              ":8080",
-		Handler:           mux,
+		Handler:           handler,
 		ReadTimeout:       5 * time.Second,
 		WriteTimeout:      10 * time.Second,
 		IdleTimeout:       15 * time.Second,

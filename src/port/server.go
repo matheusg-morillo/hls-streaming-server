@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func SetupServer() (*http.ServeMux, error) {
+func SetupServer() (http.Handler, error) {
 	mux := http.NewServeMux()
 	hlsDir := os.Getenv("HLS_DIR")
 
@@ -21,5 +21,6 @@ func SetupServer() (*http.ServeMux, error) {
 
 	middleware.UseStaticFiles(mux, hlsDir, "/hls/")
 
-	return mux, nil
+	handler := middleware.Use(middleware.Cors(), nil, mux)
+	return handler, nil
 }
