@@ -1,10 +1,11 @@
-module matheusflix/hls-streaming-server/golangci-lint
+module matheusflix/hls-streaming-server/tools
 
 go 1.25.5
 
 tool (
 	github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 	golang.org/x/tools/cmd/goimports
+	golang.org/x/tools/cmd/gofmt
 )
 
 require (
