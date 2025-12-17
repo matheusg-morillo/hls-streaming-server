@@ -6,7 +6,7 @@ func SetupServer() (*http.ServeMux, error) {
 	mux := http.NewServeMux()
 
 	for endpoint, handler := range Routes {
-		mux.HandleFunc(endpoint, handler)
+		mux.Handle(endpoint, handler)
 	}
 
 	return mux, nil
