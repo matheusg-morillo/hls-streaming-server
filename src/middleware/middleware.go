@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func ServeStaticFiles(mux *http.ServeMux, dir string, route string) {
+func UseStaticFiles(mux *http.ServeMux, dir string, route string) {
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		log.Fatalf("HLS directory %s does not exist", dir)
 	}

@@ -12,7 +12,7 @@ func SetupServer() (*http.ServeMux, error) {
 		mux.Handle(endpoint, handler)
 	}
 
-	middleware.ServeStaticFiles(mux, "./.upload", "/hls/")
+	middleware.UseStaticFiles(mux, "./.upload", "/hls/")
 
 	return mux, nil
 }
