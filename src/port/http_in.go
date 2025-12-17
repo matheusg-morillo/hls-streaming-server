@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"matflix/hls-streaming-server/src/adapter"
 	"matflix/hls-streaming-server/src/controller"
+	"matflix/hls-streaming-server/src/middleware"
 	"net/http"
 )
 
@@ -22,5 +23,5 @@ func healthHandler() http.Handler {
 }
 
 var Routes = map[string]http.Handler{
-	"/health": healthHandler(),
+	"/health": middleware.Use(middleware.WithInboundLogging(), middleware.WithOutgoingLogging(), healthHandler()),
 }
