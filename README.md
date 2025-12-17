@@ -1,56 +1,183 @@
 # HLS Streaming Server
 
-A simple HTTP server for streaming HLS (HTTP Live Streaming) video content.
+An HTTP server for HLS (HTTP Live Streaming) video content built in Go as part of a practical study plan to master streaming technologies.
 
-## Requirements
+## 📚 Project Context
+
+This project is part of **Phase 1** of the "Streaming & Video Technologies" study plan, aimed at technical preparation for working at streaming companies like Netflix.
+
+### Learning Objectives
+
+- ✅ Implement basic HTTP server for HLS streaming
+- ✅ Serve video segments (.ts) and playlists (.m3u8)
+- 🔄 Understand streaming protocols (HLS)
+- 🔄 Practice video conversion with FFmpeg
+- 🔄 Work with HTML5 players (Video.js)
+- 🔄 Measure latency and streaming performance
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
 
 - Go 1.25.5 or higher
+- FFmpeg (for video conversion)
+- Docker and docker-compose (optional)
 
-## Development
-
-### First Time Setup
+### Installation
 
 1. Clone the repository
-2. Install golangci-lint (project-local):
-   ```bash
-   make install-lint
-   ```
+```bash
+git clone <repo-url>
+cd hls-streaming-server
+```
 
-### Running the Server
+2. Install linter (first time)
+```bash
+make install-lint
+```
+
+3. Create upload directory
+```bash
+mkdir -p .upload
+```
+
+---
+
+## 🏃 Running the Server
+
+### Development Mode
 
 ```bash
 make run
 ```
 
-The server will start on `http://localhost:8080/hls/`
+Server will start at `http://localhost:8080`
 
-### Building
+### With Docker
+
+```bash
+docker-compose up --build
+```
+
+### Manual Build
 
 ```bash
 make build
+./bin/hls-server
 ```
 
-This creates a binary at `bin/hls-server`
+---
 
-### Linting
+## 🎮 Testing the Stream
 
-Run the linter:
+### Check Health Endpoint
+
 ```bash
+curl http://localhost:8080/health
+```
+
+Expected response:
+```json
+{
+  "status": "Healthy",
+  "time": "2025-01-15T10:30:00Z"
+}
+```
+
+### Access HLS Playlist
+
+```bash
+curl http://localhost:8080/hls/stream.m3u8
+```
+
+---
+
+## 🛠️ Available Commands
+
+```bash
+# Format code
+make fmt
+
+# Check formatting
+make fmt-check
+
+# Run linter
 make lint
-```
 
-Auto-fix issues where possible:
-```bash
+# Auto-fix linter issues
 make lint-fix
+
+# Build
+make build
+
+# Clean binaries
+make clean
+
+# See all commands
+make help
 ```
 
-## Project Structure
+---
 
-- `main.go` - HTTP server implementation
-- `.golangci.yml` - Linter configuration
-- `golangci-lint.mod` - Linter dependency management
-- `.upload/` - HLS media files directory
+## 📁 Project Structure
 
-## How It Works
+```
+.
+├── src/
+│   ├── adapter/           # Data conversion (domain → JSON)
+│   ├── application/       # Application entry point
+│   ├── controller/        # Business logic
+│   ├── domain/            # Domain entities
+│   ├── middleware/        # HTTP middlewares
+│   ├── port/              # HTTP adapters (in/out)
+│   └── wire/              # DTOs (Data Transfer Objects)
+├── .upload/               # HLS files (m3u8 + ts)
+├── Dockerfile             # Docker container
+├── docker-compose.yaml    # Orchestration
+├── Makefile               # Development commands
+├── .golangci.yml          # Linter configuration
+└── README.md              # This file
+```
 
-The server serves HLS video files from the `.upload/` directory on the `/hls/` endpoint. Place your `.m3u8` playlist files and `.ts` video segments in the `.upload/` directory, then access them via `http://localhost:8080/hls/<filename>`.
+### Architecture
+
+The project follows **Clean Architecture** with clear separation of concerns:
+
+- **Domain**: Business entities (pure models)
+- **Controller**: Use cases and application logic
+- **Adapter**: Conversion between layers
+- **Port**: Input/output interfaces (HTTP handlers)
+- **Middleware**: Cross-cutting concerns (CORS, logging, etc)
+
+---
+
+## 💡 Technologies
+
+- **Language**: Go 1.25.5
+- **Protocol**: HLS (HTTP Live Streaming)
+- **Container**: Docker + docker-compose
+- **Code Quality**: golangci-lint
+
+---
+
+## 🤝 Contributing
+
+This is a study project, but contributions are welcome!
+
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is for educational purposes.
+
+---
+
+**Remember**: This is a practical learning project focused on building streaming infrastructure skills. 🚀🎬
