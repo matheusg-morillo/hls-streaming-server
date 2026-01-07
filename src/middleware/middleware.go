@@ -4,18 +4,21 @@ import (
 	"net/http"
 )
 
-func Use(before http.HandlerFunc, after http.HandlerFunc, next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if before != nil {
-			before(w, r)
-		}
+type Middleware func(http.Handler) http.Handler
 
-		if r.Method != http.MethodOptions {
-			next.ServeHTTP(w, r)
+func Chain(mws ...Middleware) Middleware {
+	return func(finalHandler http.Handler) http.Handler {
+		for _, mw := range mws {
+			finalHandler = mw(finalHandler)
 		}
+		return finalHandler
+	}
+}
 
-		if after != nil {
-			after(w, r)
-		}
-	})
+func Then(mw Middleware, handler http.Handler) http.Handler {
+	return mw(handler)
+}
+
+func ThenFunc(mw Middleware, handlerFunc http.HandlerFunc) http.Handler {
+	return mw(handlerFunc)
 }

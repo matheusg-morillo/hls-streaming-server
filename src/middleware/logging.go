@@ -3,16 +3,21 @@ package middleware
 import (
 	"log"
 	"net/http"
+	"time"
 )
 
-func WithInboundLogging() http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("Inbound request: %s %s", r.Method, r.URL.Path)
-	})
-}
+func Logger() Middleware {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
 
-func WithOutgoingLogging() http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("Outgoing response: %s %s", r.Method, r.URL.Path)
-	})
+			log.Printf("→ %s %s", r.Method, r.URL.Path)
+
+			next.ServeHTTP(w, r)
+
+			duration := time.Since(start)
+			log.Printf("← %s %s -> [%v]",
+				r.Method, r.URL.Path, duration)
+		})
+	}
 }

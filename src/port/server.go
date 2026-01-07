@@ -21,6 +21,5 @@ func SetupServer() (http.Handler, error) {
 
 	middleware.UseStaticFiles(mux, hlsDir, "/hls/")
 
-	handler := middleware.Use(middleware.Cors(), nil, mux)
-	return handler, nil
+	return middleware.Then(middleware.Logger(), mux), nil
 }
