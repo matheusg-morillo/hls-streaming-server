@@ -1,2 +1,3 @@
 bin/
+.upload/
 golangci-lint.sum
